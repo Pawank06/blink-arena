@@ -1,6 +1,7 @@
 import { Document, Model } from "mongoose";
 
 export interface ITournament extends Document {
+  tournamentId: string;
   organizationName: string;
   email: string;
   image: string;

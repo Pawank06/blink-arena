@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 
 const createTournamentSchema = new mongoose.Schema<ITournament>(
   {
+    tournamentId: {
+      type: String,
+      required: true,
+    },
     organizationName: {
       type: String,
       required: true,
