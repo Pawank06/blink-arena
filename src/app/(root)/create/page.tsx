@@ -80,7 +80,7 @@ const TournamentForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50">
       <h1 className="text-2xl font-bold mb-6 text-center">Create Tournament</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">
