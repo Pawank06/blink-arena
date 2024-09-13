@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // Define the structure of your tournament data
 interface Tournament {
@@ -10,9 +10,13 @@ interface Tournament {
   // Add other fields as needed
 }
 
-export default function JoinTournament({ params }: { params: { tournamentId: string } }) {
+export default function JoinTournament({
+  params,
+}: {
+  params: { tournamentId: string };
+}) {
   const { tournamentId } = params;
-  
+
   // State for storing tournament data, loading state, and errors
   const [tournamentData, setTournamentData] = useState<Tournament | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -24,10 +28,11 @@ export default function JoinTournament({ params }: { params: { tournamentId: str
       try {
         const response = await fetch(`/api/tournaments/${tournamentId}`);
         if (!response.ok) {
-          throw new Error('Tournament not found');
+          throw new Error("Tournament not found");
         }
         const data: Tournament = await response.json(); // Typecast response data
         setTournamentData(data);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         setError(err.message);
       } finally {

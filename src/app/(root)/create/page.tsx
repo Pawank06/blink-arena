@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface TournamentFormData {
-  tournamentId: string;
   organizationName: string;
   email: string;
   image: string;
@@ -19,22 +18,23 @@ interface TournamentFormData {
 
 const TournamentForm: React.FC = () => {
   const [formData, setFormData] = useState<TournamentFormData>({
-    tournamentId: '',
-    organizationName: '',
-    email: '',
-    image: '',
-    description: '',
-    prizePool: '',
-    date: '',
-    time: '',
-    location: '',
+    organizationName: "",
+    email: "",
+    image: "",
+    description: "",
+    prizePool: "",
+    date: "",
+    time: "",
+    location: "",
     totalTeamMembers: 0,
     joinFees: 0,
-    joinFeesType: '',
+    joinFeesType: "",
   });
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData({
@@ -47,35 +47,34 @@ const TournamentForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('/api/tournaments/saveTournament', {
-        method: 'POST',
+      const response = await fetch("/api/tournaments/saveTournament", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        console.log('Tournament created successfully');
+        console.log("Tournament created successfully");
         setFormData({
-          tournamentId: '',
-          organizationName: '',
-          email: '',
-          image: '',
-          description: '',
-          prizePool: '',
-          date: '',
-          time: '',
-          location: '',
+          organizationName: "",
+          email: "",
+          image: "",
+          description: "",
+          prizePool: "",
+          date: "",
+          time: "",
+          location: "",
           totalTeamMembers: 0,
           joinFees: 0,
-          joinFeesType: '',
+          joinFeesType: "",
         });
       } else {
-        console.error('Error creating tournament');
+        console.error("Error creating tournament");
       }
     } catch (err) {
-      console.error('Failed to submit form', err);
+      console.error("Failed to submit form", err);
     }
   };
 
@@ -83,18 +82,6 @@ const TournamentForm: React.FC = () => {
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50">
       <h1 className="text-2xl font-bold mb-6 text-center">Create Tournament</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex flex-col">
-          <label className="mb-2 font-semibold">Tournament ID</label>
-          <input
-            type="text"
-            name="tournamentId"
-            value={formData.tournamentId}
-            onChange={handleInputChange}
-            className="p-3 border rounded-md"
-            required
-          />
-        </div>
-
         <div className="flex flex-col">
           <label className="mb-2 font-semibold">Organization Name</label>
           <input
