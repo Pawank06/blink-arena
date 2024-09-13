@@ -1,19 +1,23 @@
-import mongoose from 'mongoose';
-
-const MONGO_URL = process.env.MONGO_URL as string;
-
-if (!MONGO_URL) {
-    throw new Error('Please define the MONGO_URL environment variable inside .env.local');
-}
+import { config } from "@/config/config";
+import mongoose from "mongoose";
 
 export const connectToDatabase = async () => {
-    try {
-        if (mongoose.connection.readyState === 0) {
-            await mongoose.connect(MONGO_URL);
-            console.log('Connected to MongoDB');
-        }
-    } catch (error) {
-        console.error('Failed to connect to MongoDB:', error);
-        throw new Error('Failed to connect to MongoDB');
-    }
+  try {
+    mongoose.connection.on("connected", () => {
+      console.log("Connected to Database successfully");
+    });
+
+    mongoose.connection.on("error", (err) => {
+      console.error("Error in Connecting to Database:", err);
+    });
+
+    mongoose.connection.on("disconnected", () => {
+      console.log("Disconnected from Database");
+    });
+
+    await mongoose.connect(config.databaseUrl as string);
+  } catch (error) {
+    console.error("Failed to connect to Database:", error);
+    process.exit(1);
+  }
 };
