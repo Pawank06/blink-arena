@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import PlayerSchema from "@/app/(mongodb)/playerScehma";
+import Player from "@/app/(mongodb)/schema/playerScehma";
 import {
   createActionHeaders,
   NextActionPostRequest,
@@ -31,7 +31,7 @@ export const POST = async (req:Request)=>{
     const tournamentId = url.searchParams.get("tournamentId") ?? "";
     const playerId = crypto.randomUUID();
 
-    const newPlayer = new PlayerSchema({
+    const newPlayer = new Player({
       playerId,
       tournamentId,
       playerName,
