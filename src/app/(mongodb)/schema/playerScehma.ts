@@ -1,4 +1,4 @@
-import { IPlayer } from "@/types/playerSchemaTypes";
+import { IPlayer } from "@/types/SchemaTypes/playerSchemaTypes";
 import mongoose, { Schema } from "mongoose";
 
 // Define the schema
