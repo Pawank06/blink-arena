@@ -47,7 +47,7 @@ const TournamentForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/save-tournament", {
+      const response = await fetch("/api/tournaments/saveTournament", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,17 +79,18 @@ const TournamentForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50 ">
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50">
       <h1 className="text-2xl font-bold mb-6 text-center">Create Tournament</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold">Organization Name</label>
+          <label className="mb-2 font-semibold ">Organization Name</label>
           <input
             type="text"
             name="organizationName"
             value={formData.organizationName}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 rounded-md bg-stone-900 border border-stone-800"
+            placeholder="Enter organization name"
             required
           />
         </div>
@@ -101,7 +102,8 @@ const TournamentForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 rounded-md bg-stone-900 border border-stone-800"
+            placeholder="Enter email"
             required
           />
         </div>
@@ -113,7 +115,8 @@ const TournamentForm: React.FC = () => {
             name="image"
             value={formData.image}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 rounded-md bg-stone-900 border border-stone-800"
+            placeholder="Enter image URL"
             required
           />
         </div>
@@ -124,7 +127,8 @@ const TournamentForm: React.FC = () => {
             name="description"
             value={formData.description}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 rounded-md bg-stone-900 border border-stone-800"
+            placeholder="Enter description"
             required
           />
         </div>
@@ -136,7 +140,8 @@ const TournamentForm: React.FC = () => {
             name="prizePool"
             value={formData.prizePool}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
+            placeholder="Enter Prize Pool"
           />
         </div>
 
@@ -147,19 +152,19 @@ const TournamentForm: React.FC = () => {
             name="date"
             value={formData.date}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 rounded-md bg-stone-900 border border-stone-800"
             required
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="mb-2 font-semibold">Time</label>
+          <label className="mb-2 font-semibold ">Time</label>
           <input
             type="time"
             name="time"
             value={formData.time}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
             required
           />
         </div>
@@ -171,8 +176,9 @@ const TournamentForm: React.FC = () => {
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
             required
+            placeholder="Enter Tournament Location"
           />
         </div>
 
@@ -183,7 +189,7 @@ const TournamentForm: React.FC = () => {
             name="totalTeamMembers"
             value={formData.totalTeamMembers}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
             required
           />
         </div>
@@ -195,7 +201,7 @@ const TournamentForm: React.FC = () => {
             name="joinFees"
             value={formData.joinFees}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
             required
           />
         </div>
@@ -206,7 +212,7 @@ const TournamentForm: React.FC = () => {
             name="joinFeesType"
             value={formData.joinFeesType}
             onChange={handleInputChange}
-            className="p-3 border rounded-md text-black"
+            className="p-3 bg-stone-900 border border-stone-800 rounded-md"
             required
           >
             <option value="">Select</option>
@@ -218,7 +224,7 @@ const TournamentForm: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full p-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
+          className="w-full p-3 bg-white text-black font-semibold rounded-md hover:bg-white/90 transition-colors"
         >
           Create Tournament
         </button>
