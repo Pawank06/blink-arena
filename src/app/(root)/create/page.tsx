@@ -47,7 +47,7 @@ const TournamentForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/tournaments/saveTournament", {
+      const response = await fetch("/api/save-tournament", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ const TournamentForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50">
+    <div className="max-w-2xl mx-auto mt-10 p-6 bg-black shadow-md rounded-md text-cyan-50 ">
       <h1 className="text-2xl font-bold mb-6 text-center">Create Tournament</h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col">
@@ -89,7 +89,7 @@ const TournamentForm: React.FC = () => {
             name="organizationName"
             value={formData.organizationName}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -101,7 +101,7 @@ const TournamentForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -113,7 +113,7 @@ const TournamentForm: React.FC = () => {
             name="image"
             value={formData.image}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -124,7 +124,7 @@ const TournamentForm: React.FC = () => {
             name="description"
             value={formData.description}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -136,7 +136,7 @@ const TournamentForm: React.FC = () => {
             name="prizePool"
             value={formData.prizePool}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
           />
         </div>
 
@@ -147,7 +147,7 @@ const TournamentForm: React.FC = () => {
             name="date"
             value={formData.date}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -159,7 +159,7 @@ const TournamentForm: React.FC = () => {
             name="time"
             value={formData.time}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -171,7 +171,7 @@ const TournamentForm: React.FC = () => {
             name="location"
             value={formData.location}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -183,7 +183,7 @@ const TournamentForm: React.FC = () => {
             name="totalTeamMembers"
             value={formData.totalTeamMembers}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -195,7 +195,7 @@ const TournamentForm: React.FC = () => {
             name="joinFees"
             value={formData.joinFees}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           />
         </div>
@@ -206,7 +206,7 @@ const TournamentForm: React.FC = () => {
             name="joinFeesType"
             value={formData.joinFeesType}
             onChange={handleInputChange}
-            className="p-3 border rounded-md"
+            className="p-3 border rounded-md text-black"
             required
           >
             <option value="">Select</option>
