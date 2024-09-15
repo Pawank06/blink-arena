@@ -13,6 +13,7 @@ import {
   ActionPostResponse,
 } from "@solana/actions";
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
+import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 
 const organizerPubKey = "6rSrLGuhPEpxGqmbZzV1ZttwtLXzGx8V2WEACXd4qnVH";
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
@@ -23,11 +24,13 @@ export const GET = async (req: Request) => {
   const { pathname } = new URL(req.url);
   const pathSegments = pathname.split("/");
   const tournamentId = pathSegments[4];
+
+  const orgData = await createTournamentSchema.findOne({tournamentId});
   try {
     const payload: ActionGetResponse = {
       icon: "http://localhost:3000/logo.png",
-      title: "join the {title} tournament",
-      description: "{description}",
+      title: `join the ${orgData.organizationName} tournament`,
+      description: `${orgData.description}`,
       label: "Join Now",
       links: {
         actions: [
