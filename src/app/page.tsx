@@ -64,7 +64,7 @@ const Page = () => {
         </div>
       </div>
       <div className=" absolute top-[20%] flex justify-center items-center">
-        <h1 className="capitalize font-semibold text-[15rem] bg-gradient-to-t from-purple-400 to-stone-400  text-transparent bg-clip-text text-center">Blink Arena</h1>
+        <h1 className="capitalize font-semibold text-[13rem] bg-gradient-to-t from-purple-400 to-stone-400  text-transparent bg-clip-text text-center">Blink Arena</h1>
         {/* <h1 className="capitalize">Arena</h1> */}
       </div>
       <div className="z-50 absolute bottom-12 right-12 flex gap-5">
