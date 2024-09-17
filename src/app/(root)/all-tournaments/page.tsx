@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
+import { TournamentCard } from "@/components/turnament-card";
 import React, { useEffect, useState } from "react";
 
 interface Tournament {
@@ -44,30 +46,9 @@ const Page = () => {
   //   console.log(data);
 
   return (
-    <>
-      <div className="text-white">
-        <h1>All Tournaments</h1>
-        <ul>
-          {data.length > 0 ? (
-            data.map((tournament) => (
-              <li key={tournament._id}>
-                <h2>{tournament.organizationName}</h2>
-                <p>{tournament.description}</p>
-                <p>{tournament.prizePool}</p>
-                <p>{tournament.date}</p>
-                <p>{tournament.time}</p>
-                <p>{tournament.location}</p>
-                <p>{tournament.totalTeamMembers}</p>
-                <p>{tournament.joinFees}</p>
-                <p>{tournament.joinFeesType}</p>
-              </li>
-            ))
-          ) : (
-            <p>No tournaments available</p>
-          )}
-        </ul>
-      </div>
-    </>
+    <div className="flex gap-10 px-10 py-10">
+      <TournamentCard/>
+    </div>
   );
 };
 
