@@ -43,11 +43,19 @@ const Page = () => {
     fetchData();
   }, []);
 
-  //   console.log(data);
-
   return (
-    <div className="flex gap-10 px-10 py-10">
-      <TournamentCard/>
+    <div className="flex gap-10 px-10 py-10 flex-wrap">
+      {data.map((tournament) => (
+        <TournamentCard
+          key={tournament._id}
+          title={tournament.organizationName}
+          description={tournament.description}
+          date={tournament.date}
+          time={tournament.time}
+          location={tournament.location}
+          prizePool={tournament.prizePool}
+        />
+      ))}
     </div>
   );
 };

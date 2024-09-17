@@ -1,6 +1,5 @@
 "use client";
 
-import { TournamentCard } from "@/components/turnament-card";
 import React, { useState } from "react";
 
 interface TournamentFormData {
@@ -233,9 +232,50 @@ const TournamentForm: React.FC = () => {
     </form>
   </div>
   <div className="w-full max-w-[600px] absolute top-16 right-20 md:hidden lg:block">
-    <h1 className=" text-2xl font-bold mb-6 text-start">Blink Preview</h1>
-    <TournamentCard />
-  </div>
+        <h1 className=" text-2xl font-bold mb-6 text-start">Live Preview</h1>
+        <div
+      style={{
+        width: "45%",
+        backgroundColor: "#1b1b1b",
+        color: "#fff",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+      }}
+    >
+      <h1 style={{ textAlign: "center" }}>Tournament Details</h1>
+      <p>
+        <strong>Organization Name:</strong> {formData.organizationName || "Enter organization name"}
+      </p>
+      <p>
+        <strong>Email:</strong> {formData.email || "Enter your email"}
+      </p>
+      <p>
+        <strong>Description:</strong> {formData.description || "Enter description"}
+      </p>
+      <p>
+        <strong>Prize Pool:</strong> {formData.prizePool || "Enter prize pool"}
+      </p>
+      <p>
+        <strong>Date:</strong> {formData.date || "Enter date"}
+      </p>
+      <p>
+        <strong>Time:</strong> {formData.time || "Enter time"}
+      </p>
+      <p>
+        <strong>Location:</strong> {formData.location || "Enter location"}
+      </p>
+      <p>
+        <strong>Total Team Members:</strong> {formData.totalTeamMembers || "Enter total team members"}
+      </p>
+      <p>
+        <strong>Join Fees:</strong> {formData.joinFees || "Enter join fees"}
+      </p>
+      <p>
+        <strong>Join Fees Type:</strong> {formData.joinFeesType || "Enter join fees type"}
+      </p>
+    </div>
+      </div>
 </div>
 
   );

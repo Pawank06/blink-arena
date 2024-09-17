@@ -136,3 +136,30 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, button {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+button {
+  background-color: #2a9d8f;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #21867a;
+}
+
+div {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
