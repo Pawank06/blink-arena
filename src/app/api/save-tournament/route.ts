@@ -1,9 +1,10 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
 import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
-import { uploadImageToStorage } from "../cloudinary/route";
+import uploadImage from "../cloudinary/route";
 
 export async function POST(req: Request) {
   await connectToDatabase();
+
   try {
     const formData = await req.formData();
 
@@ -23,9 +24,10 @@ export async function POST(req: Request) {
     const image = formData.get("image") as File;
     let imageUrl = "";
     if (image) {
-      imageUrl = await uploadImageToStorage(image);
+      imageUrl = await uploadImage(image, "tournament");
     }
 
+    // Create tournament data
     const data = new createTournamentSchema({
       tournamentId: crypto.randomUUID(),
       organizationName,
@@ -40,7 +42,10 @@ export async function POST(req: Request) {
       joinFees,
       joinFeesType,
     });
+
+    // Save to the database
     await data.save();
+
     return new Response(
       JSON.stringify({
         success: true,
