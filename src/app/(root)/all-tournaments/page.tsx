@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-import { TournamentCard } from "@/components/turnament-card";
+import { TournamentCard } from "@/components/tournament-card";
 import React, { useEffect, useState } from "react";
 
 interface Tournament {
@@ -10,6 +9,7 @@ interface Tournament {
   prizePool: string;
   date: string;
   time: string;
+  image: string;
   location: string;
   totalTeamMembers: number;
   joinFees: number;
@@ -18,6 +18,7 @@ interface Tournament {
 
 const Page = () => {
   const [data, setData] = useState<Tournament[]>([]);
+  console.log(data);
 
   const fetchData = async () => {
     try {
@@ -50,6 +51,7 @@ const Page = () => {
           key={tournament._id}
           title={tournament.organizationName}
           description={tournament.description}
+          image={tournament.image}
           date={tournament.date}
           time={tournament.time}
           location={tournament.location}

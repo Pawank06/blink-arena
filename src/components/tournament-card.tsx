@@ -1,20 +1,15 @@
-import { LocateIcon } from "lucide-react"
+import { LocateIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card"
-
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 interface TournamentCardProps {
   title: string;
   description: string;
   date: string;
   time: string;
+  image: string;
   location: string;
   prizePool: string;
 }
@@ -24,6 +19,7 @@ export function TournamentCard({
   description,
   date,
   time,
+  image,
   location,
   prizePool,
 }: TournamentCardProps) {
@@ -32,7 +28,13 @@ export function TournamentCard({
       <div className="p-6">
         <div className="">
           <div className="h-[300px] border border-white/10 rounded-lg">
-            {/* You can add an image here if needed */}
+            <Image
+              src={image}
+              alt={title}
+              width={380}
+              height={300}
+              className="w-full h-full object-cover rounded-lg"
+            />
           </div>
         </div>
         <div className="flex my-5 justify-between items-center">
