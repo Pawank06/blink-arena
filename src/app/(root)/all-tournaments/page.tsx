@@ -7,6 +7,7 @@ interface Tournament {
   organizationName: string;
   description: string;
   prizePool: string;
+  tournamentId: string;
   date: string;
   time: string;
   image: string;
@@ -49,6 +50,7 @@ const Page = () => {
       {data.map((tournament) => (
         <TournamentCard
           key={tournament._id}
+          tournamentId={tournament.tournamentId}
           title={tournament.organizationName}
           description={tournament.description}
           image={tournament.image}

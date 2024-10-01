@@ -3,8 +3,10 @@ import { LocateIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 interface TournamentCardProps {
+  tournamentId:string;
   title: string;
   description: string;
   date: string;
@@ -15,6 +17,7 @@ interface TournamentCardProps {
 }
 
 export function TournamentCard({
+  tournamentId,
   title,
   description,
   date,
@@ -63,9 +66,9 @@ export function TournamentCard({
         </div>
       </CardContent>
       <CardFooter>
-        <Button className="w-full hover:bg-green-500/90 bg-green-500 text-black">
+        <Link href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost%3A3000%2Fapi%2Factions%2Fjoin%2F${tournamentId}&cluster=devnet`}><Button className="w-full hover:bg-green-500/90 bg-green-500 text-black">
           Join Now
-        </Button>
+        </Button></Link>
       </CardFooter>
     </Card>
   );
