@@ -1,13 +1,12 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
 import Player from "@/app/(mongodb)/schema/playerScehma";
 import {
-  // createActionHeaders,
-  // NextActionPostRequest,
   ActionError,
   CompletedAction,
   ACTIONS_CORS_HEADERS,
 } from "@solana/actions";
-// import { clusterApiUrl, Connection, PublicKey } from "@solana/web3.js";
+
+import nodemailer from "nodemailer";
 
 export const GET = async () => {
   return Response.json(
@@ -17,6 +16,20 @@ export const GET = async () => {
     }
   );
 };
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
+  },
+});
+
+// console.log("Email:", process.env.EMAIL);
+// console.log("Password:", process.env.PASSWORD);
 
 export const OPTIONS = GET;
 
@@ -42,8 +55,15 @@ export const POST = async (req: Request) => {
       teamType,
       teamMembers,
     });
-
     await newPlayer.save();
+
+    await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: playerEmail,
+      subject: "Tournament Registration Successful",
+      text: `Hello ${playerName},\n\nYou have successfully registered for the tournament with ID: ${tournamentId}.\n\nGood luck!`,
+      html: `<p>Hello ${playerName},</p><p>You have successfully registered for the tournament with ID: <strong>${tournamentId}</strong>.</p><p>Good luck!</p>`,
+    });
 
     const payload: CompletedAction = {
       type: "completed",
@@ -59,7 +79,7 @@ export const POST = async (req: Request) => {
   } catch (err) {
     console.error("General error:", err);
     const actionError: ActionError = { message: "An unknown error occurred" };
-    if (typeof err == "string") actionError.message = err;
+    if (typeof err === "string") actionError.message = err;
     return new Response(JSON.stringify(actionError), {
       status: 400,
       headers: ACTIONS_CORS_HEADERS,
