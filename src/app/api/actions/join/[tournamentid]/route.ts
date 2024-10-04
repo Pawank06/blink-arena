@@ -25,10 +25,10 @@ export const GET = async (req: Request) => {
   const pathSegments = pathname.split("/");
   const tournamentId = pathSegments[4];
 
-  const orgData = await createTournamentSchema.findOne({tournamentId});
+  const orgData = await createTournamentSchema.findOne({ tournamentId });
   try {
     const payload: ActionGetResponse = {
-      icon: "http://localhost:3000/logo.png",
+      icon: `${orgData.image}`,
       title: `join the ${orgData.organizationName} tournament`,
       description: `${orgData.description}`,
       label: "Join Now",
