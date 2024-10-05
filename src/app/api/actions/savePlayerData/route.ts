@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
+import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import Player from "@/app/(mongodb)/schema/playerScehma";
 import {
   ActionError,
@@ -46,6 +47,8 @@ export const POST = async (req: Request) => {
     const tournamentId = url.searchParams.get("tournamentId") ?? "";
     const playerId = crypto.randomUUID();
 
+    const orgData = await createTournamentSchema.findOne({ tournamentId });
+
     const newPlayer = new Player({
       playerId,
       tournamentId,
@@ -68,7 +71,7 @@ export const POST = async (req: Request) => {
     const payload: CompletedAction = {
       type: "completed",
       title: "Registration Successful",
-      icon: "http://localhost:3000/logo.png",
+      icon: `${orgData.image}`,
       label: "Completed",
       description: `You have successfully joined the tournament`,
     };
