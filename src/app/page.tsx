@@ -58,19 +58,26 @@ const Page = () => {
       <div className="absolute top-12 left-12 z-50 max-w-xl">
         <div className="text-left">
           <h1 className="text-white text-2xl font-medium">
-            blink <span className="px-2 py-1 bg-gradient-to-r from-purple-600 via-fuchsia-700 to-purple-900  rounded-md text-slate-200">arena</span>
+            blink{" "}
+            <span className="px-2 py-1 bg-gradient-to-r from-purple-600 via-fuchsia-700 to-purple-900  rounded-md text-slate-200">
+              arena
+            </span>
           </h1>
-
         </div>
       </div>
       <div className=" absolute top-[20%] flex justify-center items-center">
-        <h1 className="capitalize font-semibold text-[13rem] bg-gradient-to-t from-purple-400 to-stone-400  text-transparent bg-clip-text text-center">Blink Arena</h1>
+        <h1 className="capitalize font-semibold text-[13rem] bg-gradient-to-t from-purple-400 to-stone-400  text-transparent bg-clip-text text-center">
+          Blink Arena
+        </h1>
         {/* <h1 className="capitalize">Arena</h1> */}
       </div>
       <div className="z-50 absolute bottom-12 right-12 flex gap-5">
-
-      <Link href="/all-tournaments" className="comic-button " role="button">Join</Link>
-      <Link href="/create" className="comic-button " role="button">create</Link>
+        <Link href="/all-tournaments" className="comic-button " role="button">
+          Join
+        </Link>
+        <Link href="/create" className="comic-button " role="button">
+          create
+        </Link>
       </div>
     </div>
   );
