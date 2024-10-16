@@ -4,7 +4,9 @@ import "./globals.css";
 
 const orbitron = Orbitron({ subsets: ["latin"] });
 
-export const metadata: Metadata = {};
+export const metadata: Metadata = {
+  title: "Blink Arena",
+};
 
 export default function RootLayout({
   children,
