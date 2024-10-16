@@ -6,6 +6,9 @@ const orbitron = Orbitron({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Blink Arena",
+  icons: {
+    icon: "/icons/favicon.svg",
+  }
 };
 
 export default function RootLayout({
