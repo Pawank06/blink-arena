@@ -1,7 +1,10 @@
+// @ts-nocheck
 "use client";
 
+import LoadingScreen from "@/components/ui/loading";
 import Image from "next/image";
-import React, { useState } from "react";
+import Link from "next/link";
+import React, { useState, useEffect } from "react";
 
 interface TournamentFormData {
   organizationName: string;
@@ -34,6 +37,16 @@ const TournamentForm: React.FC = () => {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [step, setStep] = useState(1);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleNext = () => {
     if (step < 3) setStep(step + 1);
@@ -91,7 +104,7 @@ const TournamentForm: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setImageUrl(data.url); 
+        setImageUrl(data.url);
         console.log("Tournament created successfully");
         setFormData({
           organizationName: "",
@@ -115,6 +128,10 @@ const TournamentForm: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <div>
       <div className="relative w-full h-screen mx-auto flex items-center justify-center bg-gradient-to-b from-stone-900 to-purple-900">
@@ -133,7 +150,19 @@ const TournamentForm: React.FC = () => {
             mixBlendMode: "overlay",
           }}
         />
-        <div className="h-screen relative z-30 bg-opacity-80 p-8 rounded-lg shadow-lg w-[1200px]">
+        <Link href="http://localhost:3000">
+          <div className="absolute top-12 left-12 z-50 max-w-xl">
+            <div className="text-left">
+              <h1 className="text-white text-2xl font-medium">
+                blink{" "}
+                <span className="px-2 py-1 bg-gradient-to-r from-purple-600 via-fuchsia-700 to-purple-900  rounded-md text-slate-200">
+                  arena
+                </span>
+              </h1>
+            </div>
+          </div>
+        </Link>
+        <div className="h-screen transition-opacity duration-1000 relative z-30 bg-opacity-80 p-8 rounded-lg shadow-lg w-[1200px]">
           <form
             onSubmit={handleSubmit}
             className="space-y-6 flex items-center justify-center h-full"
@@ -183,7 +212,7 @@ const TournamentForm: React.FC = () => {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
-                      className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
+                      className="input mt-4 w-full px-3 py-2 border border-gray-300 resize-none  rounded-md"
                       placeholder="Enter description"
                       required
                     />
@@ -272,7 +301,6 @@ const TournamentForm: React.FC = () => {
                   </>
                 )}
 
-                {/* Navigation Buttons */}
                 <div className="button-container mt-4 flex justify-between">
                   <button
                     type="button"
