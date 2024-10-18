@@ -1,6 +1,7 @@
 // @ts-nocheck
 "use client";
 
+import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import LoadingScreen from "@/components/ui/loading";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,8 +38,9 @@ const TournamentForm: React.FC = () => {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [step, setStep] = useState(1);
-
   const [loading, setLoading] = useState(true);
+  const [tournamentUrl, setTournamentUrl] = useState<string>("");
+  const [tournamentId, setTournamentId] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -49,7 +51,7 @@ const TournamentForm: React.FC = () => {
   }, []);
 
   const handleNext = () => {
-    if (step < 3) setStep(step + 1);
+    if (step < 4) setStep(step + 1);
   };
 
   const handlePrev = () => {
@@ -105,7 +107,12 @@ const TournamentForm: React.FC = () => {
       if (response.ok) {
         const data = await response.json();
         setImageUrl(data.url);
-        console.log("Tournament created successfully");
+        const tournamentId = data.data.tournamentId;
+        setTournamentId(tournamentId);
+        setTournamentUrl(
+          `http://localhost:3000/api/actions/join/tournaments/${tournamentId}`
+        );
+
         setFormData({
           organizationName: "",
           email: "",
@@ -119,13 +126,26 @@ const TournamentForm: React.FC = () => {
           joinFees: 0,
           joinFeesType: "",
         });
-        setStep(1);
+
+        handleNext();
       } else {
-        console.error("Error creating tournament");
+        console.error("Error creating tournament:", response.statusText);
       }
     } catch (err) {
-      console.error("Failed to submit form", err);
+      console.error("Failed to submit form:", err);
     }
+  };
+
+  const copyToClipboard = () => {
+    const urlToCopy = `http://localhost:3000/api/actions/join/${tournamentId}`;
+    navigator.clipboard
+      .writeText(urlToCopy)
+      .then(() => {
+        alert("URL copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy URL:", err);
+      });
   };
 
   if (loading) {
@@ -285,7 +305,7 @@ const TournamentForm: React.FC = () => {
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                     />
-                    <label className="mb-2 font-semibold">Join Fees Type</label>
+                    <label className="mb-2 font-semibold">Fees Type</label>
                     <select
                       name="joinFeesType"
                       value={formData.joinFeesType}
@@ -293,30 +313,52 @@ const TournamentForm: React.FC = () => {
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                     >
-                      <option value="">Select</option>
-                      <option value="USD">USD</option>
-                      <option value="EUR">EUR</option>
-                      <option value="INR">INR</option>
+                      <option value="">Select Fees Type</option>
+                      <option value="Per Team">Per Team</option>
+                      <option value="Per Player">Per Player</option>
                     </select>
                   </>
                 )}
 
+                {step === 4 && (
+                  <>
+                    <label className="mb-2 font-semibold">Tournament URL</label>
+                    <input
+                      type="text"
+                      value={`http://localhost:3000/api/actions/join/${tournamentId}`}
+                      readOnly
+                      className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={copyToClipboard}
+                      className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                    >
+                      Copy URL
+                    </button>
+                  </>
+                )}
+
                 <div className="button-container mt-4 flex justify-between">
-                  <button
-                    type="button"
-                    id="reset-btn"
-                    className="reset-button"
-                    onClick={handlePrev}
-                    disabled={step === 1}
-                  >
-                    Prev
-                  </button>
-                  <button
-                    type="submit"
-                    className="send-button bg-purple-600 text-white py-2 px-4 rounded-md"
-                  >
-                    {step === 3 ? "Create Tournament" : "Next"}
-                  </button>
+                  {step < 4 && (
+                    <>
+                      <button
+                        type="button"
+                        id="reset-btn"
+                        className="reset-button"
+                        onClick={handlePrev}
+                        disabled={step === 1}
+                      >
+                        Prev
+                      </button>
+                      <button
+                        type="submit"
+                        className="send-button bg-purple-600 text-white py-2 px-4 rounded-md"
+                      >
+                        Next
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
