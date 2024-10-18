@@ -3,9 +3,11 @@
 
 import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import LoadingScreen from "@/components/ui/loading";
+import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import { FaXTwitter } from "react-icons/fa6";
 
 interface TournamentFormData {
   organizationName: string;
@@ -146,6 +148,16 @@ const TournamentForm: React.FC = () => {
       .catch((err) => {
         console.error("Failed to copy URL:", err);
       });
+  };
+
+  const shareOnTwitter = () => {
+    const urlToShare = `http://localhost:3000/api/actions/join/${tournamentId}`;
+    const textToShare = `Check out this tournament!`;
+    const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      textToShare
+    )}&url=${encodeURIComponent(urlToShare)}`;
+
+    window.open(twitterShareUrl, "_blank");
   };
 
   if (loading) {
@@ -329,6 +341,7 @@ const TournamentForm: React.FC = () => {
                       readOnly
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                     />
+                    <div className="flex justify-between">
                     <button
                       type="button"
                       onClick={copyToClipboard}
@@ -336,6 +349,14 @@ const TournamentForm: React.FC = () => {
                     >
                       Copy URL
                     </button>
+                    <button
+                      type="button"
+                      onClick={shareOnTwitter}
+                      className="bg-black text-white py-2 px-4 rounded-md mt-4"
+                    >
+                      <FaXTwitter className="h-6 w-6" />
+                    </button>
+                    </div>
                   </>
                 )}
 
