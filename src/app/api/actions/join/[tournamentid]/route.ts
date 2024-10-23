@@ -30,7 +30,8 @@ export const GET = async (req: Request) => {
     const payload: ActionGetResponse = {
       icon: `${orgData.image}`,
       title: `join the ${orgData.organizationName} tournament`,
-      description: `${orgData.description}`,
+      description: `${orgData.description}\nAvailable Slots: ${orgData.totalSlot}`,
+
       label: "Join Now",
       links: {
         actions: [
@@ -63,7 +64,7 @@ export const GET = async (req: Request) => {
               {
                 type: "radio",
                 name: "members",
-                label: "Select Team Member (Select 1 if Selected Solo)",
+                label: `Select Team Member (Select 1 if Selected Solo) - Available Slots: ${orgData.totalSlot}`,
                 options: [
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },
