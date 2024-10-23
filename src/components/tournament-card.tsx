@@ -7,6 +7,7 @@ interface TournamentCardProps {
   tournamentId: string;
   title: string;
   description: string;
+  totalSlot: number;
   date: string;
   time: string;
   image: string;
@@ -18,6 +19,7 @@ export function TournamentCard({
   tournamentId,
   title,
   description,
+  totalSlot,
   date,
   time,
   image,
@@ -66,6 +68,12 @@ export function TournamentCard({
             <LocateIcon className="text-stone-200" />
           </span>
           <span className="list_text">{location}</span>
+        </li>
+        <li className="card__list_item">
+          <span className="check">
+            <LocateIcon className="text-stone-200" />
+          </span>
+          <span className="list_text">Available Slots : {totalSlot}</span>
         </li>
         <li className="card__list_item">
           <span className="check"></span>

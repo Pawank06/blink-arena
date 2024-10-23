@@ -6,7 +6,6 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Image from "next/image";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Button from "@/components/ui/arrow-right";
 import ButtonLeft from "@/components/ui/arrow-left";
 import Link from "next/link";
@@ -15,6 +14,7 @@ interface Tournament {
   _id: string;
   organizationName: string;
   description: string;
+  totalSlot: number;
   prizePool: string;
   tournamentId: string;
   date: string;
@@ -158,6 +158,7 @@ const Page = () => {
                 tournamentId={tournament.tournamentId}
                 title={tournament.organizationName}
                 description={tournament.description}
+                totalSlot={tournament.totalSlot}
                 image={tournament.image}
                 date={tournament.date}
                 time={tournament.time}

@@ -8,10 +8,10 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
 
-    // Extract fields from formData
     const organizationName = formData.get("organizationName")?.toString() || "";
     const email = formData.get("email")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
+    const totalSlot = Number(formData.get("totalSlot") || 0);
     const prizePool = formData.get("prizePool")?.toString() || "";
     const date = formData.get("date")?.toString() || "";
     const time = formData.get("time")?.toString() || "";
@@ -20,20 +20,19 @@ export async function POST(req: Request) {
     const joinFees = Number(formData.get("joinFees") || 0);
     const joinFeesType = formData.get("joinFeesType")?.toString() || "";
 
-    // Handle image upload
     const image = formData.get("image") as File;
     let imageUrl = "";
     if (image) {
       imageUrl = await uploadImage(image, "tournament");
     }
 
-    // Create tournament data
     const data = new createTournamentSchema({
       tournamentId: crypto.randomUUID(),
       organizationName,
       email,
       image: imageUrl,
       description,
+      totalSlot,
       prizePool,
       date,
       time,
@@ -43,7 +42,6 @@ export async function POST(req: Request) {
       joinFeesType,
     });
 
-    // Save to the database
     await data.save();
 
     return new Response(

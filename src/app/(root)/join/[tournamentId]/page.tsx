@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import LoadingScreen from "@/components/ui/loading";
@@ -8,6 +7,7 @@ interface Tournament {
   organizationName: string;
   email: string;
   description: string;
+  totalSlot: number;
   prizePool?: string;
   date: string;
   time: string;
@@ -24,22 +24,20 @@ export default function JoinTournament({
 }) {
   const { tournamentId } = params;
 
-  // State for storing tournament data, loading state, and errors
   const [tournamentData, setTournamentData] = useState<Tournament | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Function to fetch tournament data
     const fetchTournamentData = async () => {
       try {
         const response = await fetch(`/api/check/${tournamentId}`);
         if (!response.ok) {
           throw new Error("Tournament not found");
         }
-        const data = await response.json(); // Typecast response data
+        const data = await response.json();
         if (data.success) {
-          setTournamentData(data.data); // Access data.data from the response
+          setTournamentData(data.data);
         } else {
           throw new Error(data.message);
         }
@@ -70,6 +68,9 @@ export default function JoinTournament({
           </h1>
           <p className="text-lg mb-2">
             <strong>Description:</strong> {tournamentData.description}
+          </p>
+          <p className="text-lg mb-2">
+            <strong>Total Slot:</strong> {tournamentData.totalSlot}
           </p>
           <p className="text-lg mb-2">
             <strong>Prize Pool:</strong>{" "}

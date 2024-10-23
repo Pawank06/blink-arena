@@ -63,7 +63,7 @@ export const GET = async (req: Request) => {
               {
                 type: "radio",
                 name: "members",
-                label: "Select Team Member",
+                label: "Select Team Member (Select 1 if Selected Solo)",
                 options: [
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },

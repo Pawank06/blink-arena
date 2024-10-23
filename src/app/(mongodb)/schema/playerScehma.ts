@@ -38,7 +38,6 @@ const playerSchema: Schema = new Schema<IPlayer>(
   }
 );
 
-// Check if the model is already compiled
 const Player = mongoose.models.Player || mongoose.model("Player", playerSchema);
 
 export default Player;

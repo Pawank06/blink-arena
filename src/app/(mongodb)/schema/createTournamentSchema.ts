@@ -23,6 +23,10 @@ const createTournamentSchema = new mongoose.Schema<ITournament>(
       type: String,
       required: true,
     },
+    totalSlot: {
+      type: Number,
+      required: true,
+    },
     prizePool: {
       type: String,
     },

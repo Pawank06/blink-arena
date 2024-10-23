@@ -6,6 +6,7 @@ export interface ITournament extends Document {
   email: string;
   image: string;
   description: string;
+  totalSlot: number;
   prizePool: string;
   date: string;
   time: string;

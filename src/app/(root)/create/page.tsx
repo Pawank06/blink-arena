@@ -14,6 +14,7 @@ interface TournamentFormData {
   email: string;
   image: File | null;
   description: string;
+  totalSlot: number;
   prizePool?: string;
   date: string;
   time: string;
@@ -29,6 +30,7 @@ const TournamentForm: React.FC = () => {
     email: "",
     image: null,
     description: "",
+    totalSlot: 0,
     prizePool: "",
     date: "",
     time: "",
@@ -120,6 +122,7 @@ const TournamentForm: React.FC = () => {
           email: "",
           image: null,
           description: "",
+          totalSlot: 0,
           prizePool: "",
           date: "",
           time: "",
@@ -248,6 +251,17 @@ const TournamentForm: React.FC = () => {
                       placeholder="Enter description"
                       required
                     />
+                    <label className="mb-2 font-semibold">
+                      Total Slot Available
+                    </label>
+                    <input
+                      type="number"
+                      name="totalSlot"
+                      value={formData.totalSlot}
+                      onChange={handleInputChange}
+                      className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
+                      placeholder="Enter slot available"
+                    />
                   </>
                 )}
 
@@ -342,20 +356,20 @@ const TournamentForm: React.FC = () => {
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                     />
                     <div className="flex justify-between">
-                    <button
-                      type="button"
-                      onClick={copyToClipboard}
-                      className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
-                    >
-                      Copy URL
-                    </button>
-                    <button
-                      type="button"
-                      onClick={shareOnTwitter}
-                      className="bg-black text-white py-2 px-4 rounded-md mt-4"
-                    >
-                      <FaXTwitter className="h-6 w-6" />
-                    </button>
+                      <button
+                        type="button"
+                        onClick={copyToClipboard}
+                        className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                      >
+                        Copy URL
+                      </button>
+                      <button
+                        type="button"
+                        onClick={shareOnTwitter}
+                        className="bg-black text-white py-2 px-4 rounded-md mt-4"
+                      >
+                        <FaXTwitter className="h-6 w-6" />
+                      </button>
                     </div>
                   </>
                 )}
