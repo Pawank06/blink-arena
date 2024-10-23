@@ -26,11 +26,21 @@ export const GET = async (req: Request) => {
   const tournamentId = pathSegments[4];
 
   const orgData = await createTournamentSchema.findOne({ tournamentId });
+
+  if (!orgData) {
+    return new Response(JSON.stringify({ error: "Tournament not found" }), {
+      status: 404,
+      headers: ACTIONS_CORS_HEADERS,
+    });
+  }
+
   try {
     const payload: ActionGetResponse = {
       icon: `${orgData.image}`,
       title: `join the ${orgData.organizationName} tournament`,
-      description: `${orgData.description}\nAvailable Slots: ${orgData.totalSlot}`,
+      description: `${orgData.description}\nAvailable Slots: ${
+        orgData.availableSlots || orgData.totalSlot
+      }`, // Use availableSlots if exists, otherwise use totalSlot
 
       label: "Join Now",
       links: {
@@ -64,13 +74,19 @@ export const GET = async (req: Request) => {
               {
                 type: "radio",
                 name: "members",
-                label: `Select Team Member (Select 1 if Selected Solo) - Available Slots: ${orgData.totalSlot}`,
+                label: `Select Team Member (Select 1 if Selected Solo) - Available Slots: ${
+                  orgData.availableSlots || orgData.totalSlot
+                }`,
                 options: [
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },
                   { label: "3", value: "3" },
                   { label: "4", value: "4" },
-                ],
+                ].filter(
+                  (option) =>
+                    parseInt(option.value) <=
+                    (orgData.availableSlots || orgData.totalSlot)
+                ), // Only show valid member counts
                 required: true,
               },
             ],
@@ -82,7 +98,7 @@ export const GET = async (req: Request) => {
       headers: ACTIONS_CORS_HEADERS,
     });
   } catch (error) {
-    console.error("Error processing POST request:", error);
+    console.error("Error processing GET request:", error);
     return new Response(
       JSON.stringify({ error: "Failed to process request" }),
       {
@@ -106,8 +122,49 @@ export const POST = async (req: Request) => {
     const playerName = url.searchParams.get("name") ?? "";
     const playerEmail = url.searchParams.get("email") ?? "";
     const teamType = url.searchParams.get("teamType") ?? "";
-    const teamMember = url.searchParams.get("members") ?? "";
+    const teamMembers = parseInt(url.searchParams.get("members") ?? "0");
     const fees = 0.002;
+
+    // Check if enough slots are available
+    const tournament = await createTournamentSchema.findOne({ tournamentId });
+    if (!tournament) {
+      return new Response(JSON.stringify({ error: "Tournament not found" }), {
+        status: 404,
+        headers: ACTIONS_CORS_HEADERS,
+      });
+    }
+
+    const availableSlots = tournament.totalSlot;
+    if (teamMembers > availableSlots) {
+      return new Response(
+        JSON.stringify({ error: "Not enough slots available" }),
+        {
+          status: 400,
+          headers: ACTIONS_CORS_HEADERS,
+        }
+      );
+    }
+
+    const updatedTournament = await createTournamentSchema.findOneAndUpdate(
+      { tournamentId },
+      {
+        $set: { totalSlot: availableSlots - teamMembers },
+        $push: {
+          participants: {
+            name: playerName,
+            email: playerEmail,
+            teamType,
+            teamMembers,
+            walletAddress: playerPubKey.toString(),
+          },
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedTournament) {
+      throw new Error("Failed to update tournament data");
+    }
 
     const transaction = new Transaction().add(
       SystemProgram.transfer({
@@ -125,11 +182,11 @@ export const POST = async (req: Request) => {
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
-        message: `Your Event has been created, Share it now`,
+        message: `Successfully joined the tournament! Remaining slots: ${updatedTournament.totalSlot}`,
         links: {
           next: {
             type: "post",
-            href: `/api/actions/savePlayerData?playerName=${playerName}&playerEmail=${playerEmail}&teamType=${teamType}&teamMembers=${teamMember}&tournamentId=${tournamentId}`,
+            href: `/api/actions/savePlayerData?playerName=${playerName}&playerEmail=${playerEmail}&teamType=${teamType}&teamMembers=${teamMembers}&tournamentId=${tournamentId}`,
           },
         },
       },
