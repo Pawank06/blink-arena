@@ -1,6 +1,18 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
 import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import uploadImage from "../cloudinary/route";
+import nodemailer from "nodemailer";
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
+  },
+});
 
 export async function POST(req: Request) {
   await connectToDatabase();
@@ -20,6 +32,10 @@ export async function POST(req: Request) {
     const joinFees = Number(formData.get("joinFees") || 0);
     const joinFeesType = formData.get("joinFeesType")?.toString() || "";
 
+    const tournamentId = crypto.randomUUID();
+    const blinkLink = `http://localhost:3000/api/actions/join/${tournamentId}`;
+    const joinLink = `https://google.com`;
+
     const image = formData.get("image") as File;
     let imageUrl = "";
     if (image) {
@@ -27,7 +43,7 @@ export async function POST(req: Request) {
     }
 
     const data = new createTournamentSchema({
-      tournamentId: crypto.randomUUID(),
+      tournamentId,
       organizationName,
       email,
       image: imageUrl,
@@ -43,6 +59,21 @@ export async function POST(req: Request) {
     });
 
     await data.save();
+
+    await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Tournament Created Successfully",
+      text: `Dear ${organizationName},\n\nYou have successfully created a tournament with ID: ${tournamentId}.\n\nHere is your blink link: ${blinkLink}\n\nPlease visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: ${joinLink}.\nWe will then send the necessary information to the registered users.\n\nBest regards,\nTeam Blink Arena`,
+      html: `
+        <p>Dear ${organizationName},</p>
+        <p>You have successfully created a tournament with ID: <strong>${tournamentId}</strong>.</p>
+        <p>Here is your blink link: <a href="${blinkLink}">${blinkLink}</a></p>
+        <p>Please visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: <a href="${joinLink}">${joinLink}</a>.</p>
+        <p>We will then send the necessary information to the registered users.</p>
+        <p>Best regards,<br>Team Blink Arena</p>
+      `,
+    });
 
     return new Response(
       JSON.stringify({

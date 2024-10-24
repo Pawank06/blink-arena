@@ -40,7 +40,7 @@ export const GET = async (req: Request) => {
       title: `join the ${orgData.organizationName} tournament`,
       description: `${orgData.description}\nAvailable Slots: ${
         orgData.availableSlots || orgData.totalSlot
-      }`, // Use availableSlots if exists, otherwise use totalSlot
+      }`,
 
       label: "Join Now",
       links: {
@@ -86,7 +86,7 @@ export const GET = async (req: Request) => {
                   (option) =>
                     parseInt(option.value) <=
                     (orgData.availableSlots || orgData.totalSlot)
-                ), // Only show valid member counts
+                ),
                 required: true,
               },
             ],
@@ -125,7 +125,6 @@ export const POST = async (req: Request) => {
     const teamMembers = parseInt(url.searchParams.get("members") ?? "0");
     const fees = 0.002;
 
-    // Check if enough slots are available
     const tournament = await createTournamentSchema.findOne({ tournamentId });
     if (!tournament) {
       return new Response(JSON.stringify({ error: "Tournament not found" }), {
