@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
     const tournamentId = crypto.randomUUID();
     const blinkLink = `http://localhost:3000/api/actions/join/${tournamentId}`;
-    const joinLink = `https://google.com`;
+    const joinLink = `http://localhost:3000/admin/${tournamentId}`;
 
     const image = formData.get("image") as File;
     let imageUrl = "";
